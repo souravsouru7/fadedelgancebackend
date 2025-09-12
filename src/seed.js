@@ -8,7 +8,7 @@ async function run() {
   await connectToDatabase()
 
   // Seed admin user (predefined)
-  const adminEmail = process.env.SEED_ADMIN_EMAIL || 'admin@'
+  const adminEmail = process.env.SEED_ADMIN_EMAIL || 'admin@123'
   const adminPass = process.env.SEED_ADMIN_PASSWORD || 'Admin123'
   const passwordHash = await bcrypt.hash(adminPass, 10)
   await AdminUser.findOneAndUpdate(

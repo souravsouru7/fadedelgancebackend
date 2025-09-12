@@ -14,7 +14,28 @@ import adminContactsRoutes from './routes/adminContacts.js'
 const app = express()
 
 // Core middleware
-app.use(cors({ origin: '*'}))
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://www.fadedelegance.ae',
+]
+
+const corsOptions = {
+  origin(origin, callback) {
+    // Allow non-browser or same-origin requests with no Origin header
+    if (!origin) return callback(null, true)
+    if (allowedOrigins.includes(origin)) return callback(null, true)
+    return callback(new Error('Not allowed by CORS'))
+  },
+  credentials: true,
+  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  exposedHeaders: ['Content-Range', 'X-Content-Range'],
+  preflightContinue: false,
+  optionsSuccessStatus: 204,
+}
+
+app.use(cors(corsOptions))
+app.options('*', cors(corsOptions))
 app.use(helmet())
 app.use(express.json({ limit: '2mb' }))
 app.use(morgan('dev'))
