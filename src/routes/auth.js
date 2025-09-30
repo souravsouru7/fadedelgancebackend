@@ -8,7 +8,9 @@ const router = Router()
 router.post('/login', async (req, res) => {
   const { email, password } = req.body || {}
   if (!email || !password) return res.status(400).json({ error: 'Email and password required' })
-  const user = await AdminUser.findOne({ email })
+
+  const normalizedEmail = String(email).toLowerCase().trim()
+  const user = await AdminUser.findOne({ email: normalizedEmail })
   if (!user) return res.status(401).json({ error: 'Invalid credentials' })
   const ok = await bcrypt.compare(password, user.passwordHash)
   if (!ok) return res.status(401).json({ error: 'Invalid credentials' })

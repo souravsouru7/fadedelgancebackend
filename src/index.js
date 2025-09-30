@@ -17,6 +17,7 @@ const app = express()
 const allowedOrigins = [
   'http://localhost:5173',
   'https://www.fadedelegance.ae',
+  'https://fadedelegance.ae',
 ]
 
 const corsOptions = {
